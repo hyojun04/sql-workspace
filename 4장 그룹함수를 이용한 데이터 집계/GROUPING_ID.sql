@@ -1,0 +1,21 @@
+-- GROUPING
+SELECT
+    DECODE(GROUPING(department_id),1,'소계', TO_CHAR(department_id)) AS 부서,
+    DECODE(GROUPING(JOB_ID), 1,'소계',JOB_ID) AS 직무,
+    ROUND(AVG(SALARY),2) AS 평균,
+    COUNT(*) AS 사원의수
+
+FROM EMPLOYEES
+GROUP BY CUBE(DEPARTMENT_ID,JOB_ID)
+ORDER BY 부서, 직무;
+
+--GROUPING_ID
+SELECT
+    DECODE(GROUPING_ID(department_ID, job_id),2,'소계',3,'합계',TO_CHAR(DEPARTMENT_ID)) AS 부서번호,
+    DECODE(GROUPING_ID(department_ID, job_id),1,'소계',3,'합계',JOB_ID) AS 직무,
+    GROUPING_ID(DEPARTMENT_ID, JOB_ID) AS GID,
+    ROUND(AVG(SALARY),2) AS 평균,
+    COUNT(*) AS 사원의수
+FROM EMPLOYEES
+GROUP BY CUBE(DEPARTMENT_ID,JOB_ID)
+ORDER BY 부서번호, 직무;
